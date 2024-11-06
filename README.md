@@ -16,6 +16,7 @@ incidents along the following dimensions: time period, district, battalion.
 (2) Created IAM role to allow access into AWS.
 (3) Upload the Data into the Data Lake on AWS S3.
 (4) Download the dataset from AWS S3 using a Python script and load the data into the table.
-(5) Generated DWH model, creating a fact table and 3 dimensions Time,District and Battalian.
-(7) Validated and test.
-(8) Added 3 example reports to understand how to extract metrics from the model.
+(5) Generated a DWH model, create a fact table and 3 dimensions Time,District and Battalian.
+(7) Validated.
+(8) Added 4 example of metrics that can be extract from the model.
+
