@@ -5,15 +5,16 @@ import os
 import logging
 
 # AWS credentials
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+aws_access_key_id = os.environ.get('aws_access_key_id')
+aws_secret_access_key = os.environ.get('aws_secret_access_key')
 
 logging.basicConfig(filename='app.log', level=logging.INFO)
 # MySQL credentials
 mysql_host = 'localhost'
-mysql_user = '3306'
-mysql_password = 'local123 '
+mysql_user = os.environ.get('mysql_user')
+mysql_password = os.environ.get('mysql_password')
 mysql_datababase = 'incidents'
+mysql_port = '3306'
 
 mysql_table = 'incidents.fire_incidents_tmp'
 
@@ -22,11 +23,15 @@ bucket_name = 'bronze-dl55060'
 file_key = 'wr8u-xric_version_5505'
 
 def download_from_s3(bucket_name, file_key):
-    s3 = boto3.client('s3')
-    obj = s3.get_object(Bucket=bucket_name, Key=file_key)
-    return obj['Body'].read()
+    try:
+        s3 = boto3.client('s3')
+        obj = s3.get_object(Bucket=bucket_name, Key=file_key)
+        return obj['Body'].read()
+    except Exception as e:
+        print(e)
+        
 
-def estabilishConnection(mysql_host, mysql_user, mysql_password, mysql_database, mysql_table):
+def establishConnection(mysql_host, mysql_user, mysql_password, mysql_database, mysql_table):
     mydb = mysql.connector.connect(
         host=mysql_host,
         user=mysql_user,
@@ -71,7 +76,7 @@ if __name__ == "__main__":
         print(e)
         
     #EstabilishConnection
-    mycursor = estabilishConnection(mysql_host, mysql_user, mysql_password, mysql_database, mysql_table)
+    mycursor = establishConnection(mysql_host, mysql_user, mysql_password, mysql_database, mysql_table)
     logger.info('Truncating tmp table')
     # truncate tmp table
     truncate(mycursor)
