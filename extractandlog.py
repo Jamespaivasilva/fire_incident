@@ -74,8 +74,6 @@ def load_to_mysql(df,mycursor):
         logger.info(("Some rows failed to insert.")
         raise ExceptionType("Some rows failed to insert. The code must be checked!")
 
-    
-
 if __name__ == "__main__":
     # Download the file from S3
     try:
