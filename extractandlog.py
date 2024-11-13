@@ -83,7 +83,6 @@ if __name__ == "__main__":
         file_content = download_from_s3(bucket_name, file_key)
     except Exception as e:
         print(e)
-        
     #EstabilishConnection
     mycursor = establishConnection(mysql_host, mysql_user, mysql_password, mysql_database, mysql_table)
     logger.info('Truncating tmp table')
@@ -95,6 +94,8 @@ if __name__ == "__main__":
 
     # Load the DataFrame into MySQL
     logger.info('Loading data into tmp table')
+    #renew connection to commit again
+    mycursor = establishConnection(mysql_host, mysql_user, mysql_password, mysql_database, mysql_table)
     load_to_mysql(df,mycursor)
     
     mycursor.close()
