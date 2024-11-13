@@ -65,7 +65,16 @@ def load_to_mysql(df,mycursor):
     except Exception as e:
         print(e)
 
-    mycursor.commit()
+    inserted_rows = mycursor.rowcount
+    logger.info('Validating insert result')
+    if len(df) == inserted_rows:
+        logger.info(f'Number of rows is ok!')
+        mycursor.commit()
+    else:
+        logger.info(("Some rows failed to insert.")
+        raise ExceptionType("Some rows failed to insert. The code must be checked!")
+
+    
 
 if __name__ == "__main__":
     # Download the file from S3
